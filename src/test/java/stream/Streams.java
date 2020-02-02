@@ -1,7 +1,6 @@
 package stream;
 
 import org.junit.Test;
-package stream.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -84,8 +83,10 @@ public class Streams {
         emps.stream().forEach(employee -> System.out.println(employee.getAge()));
         emps.forEach(employee -> System.out.println(employee.getAge()));
 
+        // Данный forEachOrdered гарантирует обход всех значений в многопоточной среде
         emps.stream().forEachOrdered(employee -> System.out.println(employee.getAge()));
 
+        // преобразуем в коллекции
         emps.stream().collect(Collectors.toList());
         emps.stream().toArray();
         Map<Integer, String> collect = emps.stream().collect(Collectors.toMap(
@@ -94,6 +95,7 @@ public class Streams {
         ));
 
         IntStream intStream = IntStream.of(100, 200, 300, 400);
+        // Метод reduce служит для сворачивания данных в одну "кучу".
         intStream.reduce((left, right) -> left + right).orElse(0);
 
         System.out.println(deps.stream().reduce(this::reducer));
@@ -106,11 +108,17 @@ public class Streams {
 
         emps.stream().max(Comparator.comparingInt(Employee::getAge));
 
+        //  в многопоточке вернет любой, в одномпоточном первый
         emps.stream().findAny();
+        // Для параллельных стримов
         emps.stream().findFirst();
 
+        // В булево значение
+        // ни один не соответсует данному выражению
         emps.stream().noneMatch(employee -> employee.getAge() > 60); // true
+        // один точно соответсует данному выражению
         emps.stream().anyMatch(employee -> employee.getPosition() == Position.CHEF); // true
+        // все точно соответствуют данному выражению
         emps.stream().allMatch(employee -> employee.getAge() > 18); // true
     }
 
@@ -133,13 +141,15 @@ public class Streams {
                 .sorted(Comparator.comparingInt(Employee::getAge))
                 .peek(emp -> emp.setAge(18))
                 .map(emp -> String.format("%s %s", emp.getLastName(), emp.getFirstName()));
-
+        // Отсекает все элементы не соответсвующие выражению, далее перестает работать
         emps.stream().takeWhile(employee -> employee.getAge() > 30).forEach(System.out::println);
         System.out.println();
+        // отсекает все элементы соответсвующие выражению и далее выводить остаток
         emps.stream().dropWhile(employee -> employee.getAge() > 30).forEach(System.out::println);
 
         System.out.println();
 
+        // Увеличить количество
         IntStream.of(100, 200, 300, 400)
                 .flatMap(value -> IntStream.of(value - 50, value))
                 .forEach(System.out::println);
