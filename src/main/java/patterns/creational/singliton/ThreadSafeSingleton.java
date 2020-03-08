@@ -1,4 +1,4 @@
-package patterns.creational.singliton_одиночка;
+package patterns.creational.singliton;
 
 public final class ThreadSafeSingleton {
     // Поле обязательно должно быть объявлено volatile, чтобы двойная проверка

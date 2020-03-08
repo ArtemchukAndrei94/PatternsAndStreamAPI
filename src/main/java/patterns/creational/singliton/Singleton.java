@@ -1,4 +1,4 @@
-package patterns.creational.singliton_одиночка;
+package patterns.creational.singliton;
 
 // Простейшая форма Singleton не Thread Safe
 public final class  Singleton{
